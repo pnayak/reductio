@@ -1,5 +1,6 @@
 var reductio_filter = require('./filter.js');
 var reductio_count = require('./count.js');
+var reductio_customjs = require('./customjs.js');
 var reductio_sum = require('./sum.js');
 var reductio_avg = require('./avg.js');
 var reductio_median = require('./median.js');
@@ -35,6 +36,18 @@ function build_function(p, f, path) {
 		f.reduceAdd = reductio_count.add(f.reduceAdd, path);
 		f.reduceRemove = reductio_count.remove(f.reduceRemove, path);
 		f.reduceInitial = reductio_count.initial(f.reduceInitial, path);
+	}
+
+	if(p.customjs) {
+		// console.log("$$$$$$ build: build_functio () - p = %o f = %o path = %o", p, f, path);
+
+		var customAddFn = new Function(['p', 'v', 'path'], '"use strict";' + p['customJS']['jsCustomAdd']);
+        var customRemoveFn = new Function(['p', 'v', 'path'], '"use strict";' + p['customJS']['jsCustomRemove']);
+        var customInitialFn = new Function(['p', 'path'], '"use strict";' + p['customJS']['jsCustomInitial']);
+
+		f.reduceAdd = reductio_customjs.add(f.reduceAdd, path, customAddFn);
+		f.reduceRemove = reductio_customjs.remove(f.reduceRemove, path, customRemoveFn);
+		f.reduceInitial = reductio_customjs.initial(f.reduceInitial, path, customInitialFn);
 	}
 
 	if(p.sum) {

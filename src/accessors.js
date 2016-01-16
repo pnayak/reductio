@@ -37,6 +37,15 @@ function accessor_build(obj, p) {
 		return obj;
 	};
 
+	obj.customjs = function(value, customJS) {
+		// console.log("### accessors: customjs() - value = %o customJS = %o", value, customJS);
+		if (!arguments.length) return p.customjs;
+		p.customjs = value;
+		p.customJS = customJS;
+		// console.log("### accessors: customjs() - returning obj = %o p.customjs = %o", obj, p.customjs);
+		return obj;
+	};
+
 	obj.sum = function(value) {
 		if (!arguments.length) return p.sum;
 
