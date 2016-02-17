@@ -4,6 +4,7 @@ var reductio_customjs = require('./customjs.js');
 var reductio_ratio = require('./ratio.js');
 var reductio_ratioBoCFirst = require('./ratioBoCFirst.js');
 var reductio_ratioBoCLatest = require('./ratioBoCLatest.js');
+var reductio_jsCustom = require('./jsCustom.js');
 var reductio_sum = require('./sum.js');
 var reductio_avg = require('./avg.js');
 var reductio_median = require('./median.js');
