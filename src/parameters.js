@@ -25,7 +25,8 @@ var reductio_parameters = function() {
     customjs: false,
     ratio: false,
     ratioBoCFirst: false,
-    ratioBoCLatest: false
+    ratioBoCLatest: false,
+    jsCustom: false
   };
 };
 

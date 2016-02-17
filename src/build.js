@@ -76,6 +76,13 @@ function build_function(p, f, path) {
     f.reduceInitial = reductio_ratioBoCLatest.initial(f.reduceInitial, path, p.ratioBoCLatestField, p.ratioBoCLatestFilterValue, p.ratioBoCLatestDepField, p.ratioBoCLatestSortField);
   }
 
+  if (p.jsCustom) {
+    // console.log("$$$$$$ build: build_functio () - p = %o f = %o path = %o", p, f, path);
+    f.reduceAdd = reductio_jsCustom.add(f.reduceAdd, path, p.jsCustomField, p.jsCustomAdd, p.jsCustomRemove, p.jsCustomInitial);
+    f.reduceRemove = reductio_jsCustom.remove(f.reduceRemove, path, p.jsCustomField, p.jsCustomAdd, p.jsCustomRemove, p.jsCustomInitial);
+    f.reduceInitial = reductio_jsCustom.initial(f.reduceInitial, path, p.jsCustomField, p.jsCustomAdd, p.jsCustomRemove, p.jsCustomInitial);
+  }
+
   if (p.sum) {
     f.reduceAdd = reductio_sum.add(p.sum, f.reduceAdd, path);
     f.reduceRemove = reductio_sum.remove(p.sum, f.reduceRemove, path);

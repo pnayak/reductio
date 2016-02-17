@@ -88,7 +88,7 @@ var reductio_ratioBoCFirst = {
       if (prior) p = prior(p);
       path(p).depField = {}; // key = depFieldValue, value = {countFiltered: xxx, total: yyy}
       path(p).sortFieldMin = {}; // key = min sortField seen upto now, value = depFieldValue (segmentId)
-      path(p).ratioBoCFirst = 0;
+      path(p).ratioBoCFirst = undefined;
       return p;
     };
   }

@@ -96,7 +96,7 @@ describe('Reductio ratio based on column (Last)', function() {
     // console.log("ratioBoCLatest: values = %o", JSON.stringify(values));
 
     expect(values['zone1'].ratioBoCLatest).toEqual(0.5);
-    expect(values['zone2'].ratioBoCLatest).toEqual(0.25);
+    expect(values['zone2'].ratioBoCLatest).toEqual(0.3333333333333333);
   });
 
   // VARIANT expectations
@@ -113,6 +113,6 @@ describe('Reductio ratio based on column (Last)', function() {
     // console.log("(VARIANT) ratioBoCLatest: values = %o", JSON.stringify(values));
 
     expect(values['zone1'].ratioBoCLatest).toEqual(0.5);
-    expect(values['zone2'].ratioBoCLatest).toEqual(0.25);
+    expect(values['zone2'].ratioBoCLatest).toEqual(0.3333333333333333);
   });
 });

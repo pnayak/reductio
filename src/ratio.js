@@ -10,7 +10,9 @@ var reductio_ratio = {
       if (_match) {
         path(p).countFiltered++;
       }
-      path(p).total++;
+      if (!_.isUndefined(_val)) {
+        path(p).total++;
+      }
       path(p).ratio = path(p).countFiltered / path(p).total;
       return p;
     };
@@ -24,7 +26,9 @@ var reductio_ratio = {
       if (_match) {
         path(p).countFiltered--;
       }
-      path(p).total--;
+      if (!_.isUndefined(_val)) {
+        path(p).total--;
+      }
       path(p).ratio = path(p).countFiltered / path(p).total;
       return p;
     };
@@ -34,7 +38,7 @@ var reductio_ratio = {
       if (prior) p = prior(p);
       path(p).total = 0;
       path(p).countFiltered = 0;
-      path(p).ratio = 0;
+      path(p).ratio = undefined;
       return p;
     };
   }

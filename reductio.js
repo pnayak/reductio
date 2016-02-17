@@ -12725,6 +12725,17 @@ function accessor_build(obj, p) {
     // console.log("### accessors: ratioBoCLatest ");
     return obj;
   };
+
+  obj.jsCustom = function(value, field, jsCustomAdd, jsCustomRemove, jsCustomInitial) {
+    if (!arguments.length) return p.jsCustom;
+    p.jsCustom = value;
+    p.jsCustomField = field;
+    p.jsCustomAdd = jsCustomAdd;
+    p.jsCustomRemove = jsCustomRemove;
+    p.jsCustomInitial = jsCustomInitial;
+    // console.log("### accessors: customjs() - returning obj = %o p.customjs = %o", obj, p.customjs);
+    return obj;
+  };
 }
 
 var reductio_accessors = {
@@ -12872,6 +12883,13 @@ function build_function(p, f, path) {
     f.reduceAdd = reductio_ratioBoCLatest.add(f.reduceAdd, path, p.ratioBoCLatestField, p.ratioBoCLatestFilterValue, p.ratioBoCLatestDepField, p.ratioBoCLatestSortField);
     f.reduceRemove = reductio_ratioBoCLatest.remove(f.reduceRemove, path, p.ratioBoCLatestField, p.ratioBoCLatestFilterValue, p.ratioBoCLatestDepField, p.ratioBoCLatestSortField);
     f.reduceInitial = reductio_ratioBoCLatest.initial(f.reduceInitial, path, p.ratioBoCLatestField, p.ratioBoCLatestFilterValue, p.ratioBoCLatestDepField, p.ratioBoCLatestSortField);
+  }
+
+  if (p.jsCustom) {
+    // console.log("$$$$$$ build: build_functio () - p = %o f = %o path = %o", p, f, path);
+    f.reduceAdd = reductio_jsCustom.add(f.reduceAdd, path, p.jsCustomField, p.jsCustomAdd, p.jsCustomRemove, p.jsCustomInitial);
+    f.reduceRemove = reductio_jsCustom.remove(f.reduceRemove, path, p.jsCustomField, p.jsCustomAdd, p.jsCustomRemove, p.jsCustomInitial);
+    f.reduceInitial = reductio_jsCustom.initial(f.reduceInitial, path, p.jsCustomField, p.jsCustomAdd, p.jsCustomRemove, p.jsCustomInitial);
   }
 
   if (p.sum) {
@@ -13521,7 +13539,8 @@ var reductio_parameters = function() {
     customjs: false,
     ratio: false,
     ratioBoCFirst: false,
-    ratioBoCLatest: false
+    ratioBoCLatest: false,
+    jsCustom: false
   };
 };
 
@@ -13579,7 +13598,9 @@ var reductio_ratio = {
       if (_match) {
         path(p).countFiltered++;
       }
-      path(p).total++;
+      if (!_.isUndefined(_val)) {
+        path(p).total++;
+      }
       path(p).ratio = path(p).countFiltered / path(p).total;
       return p;
     };
@@ -13593,7 +13614,9 @@ var reductio_ratio = {
       if (_match) {
         path(p).countFiltered--;
       }
-      path(p).total--;
+      if (!_.isUndefined(_val)) {
+        path(p).total--;
+      }
       path(p).ratio = path(p).countFiltered / path(p).total;
       return p;
     };
@@ -13603,7 +13626,7 @@ var reductio_ratio = {
       if (prior) p = prior(p);
       path(p).total = 0;
       path(p).countFiltered = 0;
-      path(p).ratio = 0;
+      path(p).ratio = undefined;
       return p;
     };
   }
@@ -13702,7 +13725,7 @@ var reductio_ratioBoCFirst = {
       if (prior) p = prior(p);
       path(p).depField = {}; // key = depFieldValue, value = {countFiltered: xxx, total: yyy}
       path(p).sortFieldMin = {}; // key = min sortField seen upto now, value = depFieldValue (segmentId)
-      path(p).ratioBoCFirst = 0;
+      path(p).ratioBoCFirst = undefined;
       return p;
     };
   }
@@ -13733,7 +13756,10 @@ var reductio_ratioBoCLatest = {
       if (_match) {
         path(p).depField[_depFieldVal]['countFiltered']++;
       }
-      path(p).depField[_depFieldVal]['total']++;
+      if (!_.isUndefined(_val)) {
+        path(p).depField[_depFieldVal]['total']++;
+      }
+      // path(p).depField[_depFieldVal]['total']++;
 
       // console.log("path(p).sortFieldMax = %o", path(p).sortFieldMax);
       var _sortFieldMaxKeys = _.keys(path(p).sortFieldMax);
@@ -13774,7 +13800,11 @@ var reductio_ratioBoCLatest = {
       if (_match) {
         path(p).depField[_depFieldVal]['countFiltered']--;
       }
-      path(p).depField[_depFieldVal]['total']--;
+
+      if (!_.isUndefined(_val)) {
+        path(p).depField[_depFieldVal]['total']--;
+      }
+      // path(p).depField[_depFieldVal]['total']--;
 
       // console.log("path(p).sortFieldMax = %o", path(p).sortFieldMax);
       var _sortFieldMaxKeys = _.keys(path(p).sortFieldMax);
@@ -13801,7 +13831,7 @@ var reductio_ratioBoCLatest = {
       if (prior) p = prior(p);
       path(p).depField = {}; // key = depFieldValue, value = {countFiltered: xxx, total: yyy}
       path(p).sortFieldMax = {}; // key = max sortField seen upto now, value = depFieldValue (segmentId)
-      path(p).ratioBoCLatest = 0;
+      path(p).ratioBoCLatest = undefined;
       return p;
     };
   }

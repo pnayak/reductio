@@ -20,7 +20,10 @@ var reductio_ratioBoCLatest = {
       if (_match) {
         path(p).depField[_depFieldVal]['countFiltered']++;
       }
-      path(p).depField[_depFieldVal]['total']++;
+      if (!_.isUndefined(_val)) {
+        path(p).depField[_depFieldVal]['total']++;
+      }
+      // path(p).depField[_depFieldVal]['total']++;
 
       // console.log("path(p).sortFieldMax = %o", path(p).sortFieldMax);
       var _sortFieldMaxKeys = _.keys(path(p).sortFieldMax);
@@ -61,7 +64,11 @@ var reductio_ratioBoCLatest = {
       if (_match) {
         path(p).depField[_depFieldVal]['countFiltered']--;
       }
-      path(p).depField[_depFieldVal]['total']--;
+
+      if (!_.isUndefined(_val)) {
+        path(p).depField[_depFieldVal]['total']--;
+      }
+      // path(p).depField[_depFieldVal]['total']--;
 
       // console.log("path(p).sortFieldMax = %o", path(p).sortFieldMax);
       var _sortFieldMaxKeys = _.keys(path(p).sortFieldMax);
@@ -88,7 +95,7 @@ var reductio_ratioBoCLatest = {
       if (prior) p = prior(p);
       path(p).depField = {}; // key = depFieldValue, value = {countFiltered: xxx, total: yyy}
       path(p).sortFieldMax = {}; // key = max sortField seen upto now, value = depFieldValue (segmentId)
-      path(p).ratioBoCLatest = 0;
+      path(p).ratioBoCLatest = undefined;
       return p;
     };
   }

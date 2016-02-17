@@ -279,6 +279,17 @@ function accessor_build(obj, p) {
     // console.log("### accessors: ratioBoCLatest ");
     return obj;
   };
+
+  obj.jsCustom = function(value, field, jsCustomAdd, jsCustomRemove, jsCustomInitial) {
+    if (!arguments.length) return p.jsCustom;
+    p.jsCustom = value;
+    p.jsCustomField = field;
+    p.jsCustomAdd = jsCustomAdd;
+    p.jsCustomRemove = jsCustomRemove;
+    p.jsCustomInitial = jsCustomInitial;
+    // console.log("### accessors: customjs() - returning obj = %o p.customjs = %o", obj, p.customjs);
+    return obj;
+  };
 }
 
 var reductio_accessors = {
