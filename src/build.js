@@ -7,6 +7,7 @@ var reductio_ratioBoCLatest = require('./ratioBoCLatest.js');
 var reductio_jsCustom = require('./jsCustom.js');
 var reductio_sum = require('./sum.js');
 var reductio_avg = require('./avg.js');
+var reductio_avgRounded = require('./avgRounded.js');
 var reductio_median = require('./median.js');
 var reductio_min = require('./min.js');
 var reductio_max = require('./max.js');
@@ -97,6 +98,16 @@ function build_function(p, f, path) {
       f.reduceAdd = reductio_avg.add(p.sum, f.reduceAdd, path);
       f.reduceRemove = reductio_avg.remove(p.sum, f.reduceRemove, path);
       f.reduceInitial = reductio_avg.initial(f.reduceInitial, path);
+    }
+  }
+
+  if (p.avgRounded) {
+    if (!p.count || !p.sum) {
+      console.error("You must set .count(true) and define a .sum(accessor) to use .avgRounded(true).");
+    } else {
+      f.reduceAdd = reductio_avgRounded.add(p.sum, f.reduceAdd, path);
+      f.reduceRemove = reductio_avgRounded.remove(p.sum, f.reduceRemove, path);
+      f.reduceInitial = reductio_avgRounded.initial(f.reduceInitial, path);
     }
   }
 
