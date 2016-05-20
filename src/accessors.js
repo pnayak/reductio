@@ -2,9 +2,9 @@ var reductio_parameters = require('./parameters.js');
 
 function accessor_build(obj, p) {
   // obj.order = function(value) {
-  // 	if (!arguments.length) return p.order;
-  // 	p.order = value;
-  // 	return obj;
+  //  if (!arguments.length) return p.order;
+  //  p.order = value;
+  //  return obj;
   // };
 
   // Converts a string to an accessor function
@@ -67,6 +67,22 @@ function accessor_build(obj, p) {
     return obj;
   };
 
+  obj.avgRounded = function(value) {
+    if (!arguments.length) return p.avgRounded;
+
+    value = accessorifyNumeric(value);
+
+    // We can take an accessor function, a boolean, or a string
+    if (typeof value === 'function') {
+      if (p.sum) console.warn('SUM aggregation is being overwritten by AVGROUNDED aggregation');
+      p.sum = value;
+      p.avgRounded = true;
+      p.count = true;
+    } else {
+      p.avgRounded = value;
+    }
+    return obj;
+  };
   obj.exception = function(value) {
     if (!arguments.length) return p.exceptionAccessor;
 

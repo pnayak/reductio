@@ -3,7 +3,7 @@ var reductio_avgRounded = {
     return function(p, v, nf) {
       if (prior) prior(p, v, nf);
       if (path(p).count > 0) {
-        path(p).avgRounded = roound(path(p).sum / path(p).count);
+        path(p).avgRounded = Math.round(path(p).sum / path(p).count);
       } else {
         path(p).avgRounded = 0;
       }
@@ -14,7 +14,7 @@ var reductio_avgRounded = {
     return function(p, v, nf) {
       if (prior) prior(p, v, nf);
       if (path(p).count > 0) {
-        path(p).avgRounded = round(path(p).sum / path(p).count);
+        path(p).avgRounded = Math.round(path(p).sum / path(p).count);
       } else {
         path(p).avgRounded = 0;
       }
